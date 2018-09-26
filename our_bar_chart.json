@@ -1,0 +1,55 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v4.json",
+  "width": 900,
+  "height": 560,
+  "padding": {"top": 10, "left": 30, "bottom": 30, "right": 10},
+
+  "data": [
+    {
+    "name": "states",
+    "url": "us-10m.json",
+    "format": {"type": "topojson", "feature": "states"},
+	"transform": [
+      {
+        "type": "geopath",
+        "projection": "projection"
+      }
+  }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "type": "linear",
+      "range": "width",
+      "domain": {"data": "table", "field": "Prj"}
+    },
+    {
+      "name": "y",
+      "type": "band",
+      "range": "height",
+      "domain": {"data": "table", "field": "Year"},
+      "nice": true
+    }
+  ],
+    {
+    "name": "projection",
+    "type": "albersUsa",
+    "scale": 1200,
+    "translate": [{"signal": "width / 2"}, {"signal": "height / 2"}]
+  },
+  "marks": [
+    {
+    "type": "path",
+    "from": {"data": "states"},
+    "encode": {
+      "enter": {
+        "fill": {"value": "#dedede"},
+        "stroke": {"value": "white"}
+      },
+      "update": {
+        "path": {"field": "path"}
+      }
+    }
+  } 
+  ]
+}
